@@ -35,9 +35,9 @@ public class StatsController {
     @GetMapping("/stats")
     public List<ViewStatsDto> getViewStats(
             @RequestParam(value = "start")
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime start,
+            @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss") LocalDateTime start,
             @RequestParam(value = "end")
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime end,
+            @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss") LocalDateTime end,
             @RequestParam(value = "uris", required = false) List<String> uris,
             @RequestParam(value = "unique", defaultValue = "false") boolean isUnique) {
         log.info("Get request /stats, start: {}, end: {},uris: {},isUnique: {}", start, end, uris, isUnique);
