@@ -48,6 +48,7 @@ public class BaseClient {
     ) {
         HttpEntity<T> requestEntity = new HttpEntity<>(
                 body
+
         );
 
         ResponseEntity<Object> statsServerResponse;
