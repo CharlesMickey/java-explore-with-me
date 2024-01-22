@@ -30,7 +30,7 @@ public class BaseClient {
     protected <T> ResponseEntity<Object> post(
             String path,
             @Nullable Map<String, Object> parameters,
-            T body
+            @Nullable T body
     ) {
         return makeAndSendRequest(
                 HttpMethod.POST,
@@ -43,8 +43,8 @@ public class BaseClient {
     private <T> ResponseEntity<Object> makeAndSendRequest(
             HttpMethod method,
             String path,
-            Map<String, Object> parameters,
-            T body
+            @Nullable Map<String, Object> parameters,
+            @Nullable T body
     ) {
         HttpEntity<T> requestEntity = new HttpEntity<>(
                 body
