@@ -44,7 +44,7 @@ public class BaseClient {
             HttpMethod method,
             String path,
             @Nullable Map<String, Object> parameters,
-            @Nullable T body
+            T body
     ) {
         HttpEntity<T> requestEntity = new HttpEntity<>(
                 body
