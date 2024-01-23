@@ -30,11 +30,14 @@ public class HitServiceImpl implements HitService {
         List<ViewStats> viewStatsList;
 
         if (isUniq) {
-
-            viewStatsList = hitRepository.getViewStatsUniq(start, end, uris);
+            viewStatsList = (uris == null || uris.isEmpty())
+                    ? hitRepository.getViewStatsUniq(start, end)
+                    : hitRepository.getViewStatsUniq(start, end, uris);
         } else {
 
-            viewStatsList = hitRepository.getViewStatsNotUniq(start, end, uris);
+            viewStatsList = (uris == null || uris.isEmpty())
+                    ? hitRepository.getViewStatsNotUniq(start, end)
+                    : hitRepository.getViewStatsNotUniq(start, end, uris);
         }
 
         return statsHitMapper.toListViewStatsDto(viewStatsList);

@@ -15,8 +15,8 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "WHERE hit.timestamp BETWEEN :start AND :end AND hit.uri IN :uris " +
             "GROUP BY hit.app, hit.uri")
     List<ViewStats> getViewStatsUniq(@Param("start") LocalDateTime start,
-                                    @Param("end") LocalDateTime end,
-                                    @Param("uris") List<String> uris);
+                                     @Param("end") LocalDateTime end,
+                                     @Param("uris") List<String> uris);
 
     @Query("SELECT new ru.practicum.model.ViewStats(hit.app, hit.uri, COUNT(hit.ip)) " +
             "FROM Hit hit " +
@@ -25,4 +25,19 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
     List<ViewStats> getViewStatsNotUniq(@Param("start") LocalDateTime start,
                                         @Param("end") LocalDateTime end,
                                         @Param("uris") List<String> uris);
+
+
+    @Query("SELECT new ru.practicum.model.ViewStats(hit.app, hit.uri, COUNT(DISTINCT hit.ip)) " +
+            "FROM Hit hit " +
+            "WHERE hit.timestamp BETWEEN :start AND :end " +
+            "GROUP BY hit.app, hit.uri")
+    List<ViewStats> getViewStatsUniq(@Param("start") LocalDateTime start,
+                                        @Param("end") LocalDateTime end);
+
+    @Query("SELECT new ru.practicum.model.ViewStats(hit.app, hit.uri, COUNT(hit.ip)) " +
+            "FROM Hit hit " +
+            "WHERE hit.timestamp BETWEEN :start AND :end " +
+            "GROUP BY hit.app, hit.uri")
+    List<ViewStats> getViewStatsNotUniq(@Param("start") LocalDateTime start,
+                                           @Param("end") LocalDateTime end);
 }
