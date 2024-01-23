@@ -14,7 +14,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "FROM Hit hit " +
             "WHERE hit.timestamp BETWEEN :start AND :end AND hit.uri IN :uris " +
             "GROUP BY hit.app, hit.uri " +
-            "ORDER BY COUNT (hit.ip) DESC" )
+            "ORDER BY COUNT (hit.ip) DESC")
     List<ViewStats> getViewStatsUniq(@Param("start") LocalDateTime start,
                                      @Param("end") LocalDateTime end,
                                      @Param("uris") List<String> uris);
@@ -23,7 +23,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "FROM Hit hit " +
             "WHERE hit.timestamp BETWEEN :start AND :end AND hit.uri IN :uris " +
             "GROUP BY hit.app, hit.uri " +
-            "ORDER BY COUNT (hit.ip) DESC" )
+            "ORDER BY COUNT (hit.ip) DESC")
     List<ViewStats> getViewStatsNotUniq(@Param("start") LocalDateTime start,
                                         @Param("end") LocalDateTime end,
                                         @Param("uris") List<String> uris);
@@ -33,7 +33,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "FROM Hit hit " +
             "WHERE hit.timestamp BETWEEN :start AND :end " +
             "GROUP BY hit.app, hit.uri " +
-            "ORDER BY COUNT (hit.ip) DESC" )
+            "ORDER BY COUNT (hit.ip) DESC")
     List<ViewStats> getViewStatsUniq(@Param("start") LocalDateTime start,
                                         @Param("end") LocalDateTime end);
 
@@ -41,7 +41,7 @@ public interface HitRepository extends JpaRepository<Hit, Long> {
             "FROM Hit hit " +
             "WHERE hit.timestamp BETWEEN :start AND :end " +
             "GROUP BY hit.app, hit.uri " +
-            "ORDER BY COUNT (hit.ip) DESC" )
+            "ORDER BY COUNT (hit.ip) DESC")
     List<ViewStats> getViewStatsNotUniq(@Param("start") LocalDateTime start,
                                            @Param("end") LocalDateTime end);
 }
