@@ -28,7 +28,6 @@ public class StatsClient extends BaseClient {
     }
 
     public ResponseEntity<Object> createEndpointHit(EndpointHitDto endpointHitDto) {
-        System.out.println("1111" + endpointHitDto.toString());
         return post("/hit",null, endpointHitDto);
     }
 

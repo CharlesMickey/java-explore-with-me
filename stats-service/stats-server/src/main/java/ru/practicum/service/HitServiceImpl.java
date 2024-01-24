@@ -2,6 +2,7 @@ package ru.practicum.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.EndpointHitDto;
 import ru.practicum.ViewStatsDto;
 import ru.practicum.mapper.StatsHitMapper;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class HitServiceImpl implements HitService {
 
     private final HitRepository hitRepository;
@@ -21,10 +23,9 @@ public class HitServiceImpl implements HitService {
 
     public EndpointHitDto createHit(EndpointHitDto endpointHitDto) {
         Hit newHit = hitRepository.save(statsHitMapper.toHit(endpointHitDto));
-        System.out.println(newHit.toString());
+
         return statsHitMapper.toEndpointHitDto(newHit);
     }
-
 
     public List<ViewStatsDto> getViewStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean isUniq) {
         List<ViewStats> viewStatsList;
