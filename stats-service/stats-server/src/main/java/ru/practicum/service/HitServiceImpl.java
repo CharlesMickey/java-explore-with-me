@@ -15,12 +15,13 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Transactional(readOnly = true)
 public class HitServiceImpl implements HitService {
 
     private final HitRepository hitRepository;
     private final StatsHitMapper statsHitMapper;
 
+    @Transactional
     public EndpointHitDto createHit(EndpointHitDto endpointHitDto) {
         Hit newHit = hitRepository.save(statsHitMapper.toHit(endpointHitDto));
 
