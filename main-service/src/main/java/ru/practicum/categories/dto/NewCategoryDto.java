@@ -1,0 +1,17 @@
+package ru.practicum.categories.dto;
+
+
+import lombok.Builder;
+import lombok.Data;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Data
+@Builder
+public class NewCategoryDto {
+
+    @NotBlank(message = "У категории должно быть название")
+    @Size(min = 1, max = 100, message = "размер названия категории от 1 до 100")
+    private String name;
+}

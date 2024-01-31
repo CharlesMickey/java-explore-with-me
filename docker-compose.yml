@@ -23,4 +23,26 @@ services:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root
 
+  main-server:
+    build: ./main-service
+    image: main-service
+    container_name: ewm-main-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - main-db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://main-db:5432/ewm_main
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+
+  main-db:
+    image: postgres:14-alpine
+    container_name: main-db-container
+    ports:
+      - "6542:5432"
+    environment:
+      - POSTGRES_DB=ewm_main
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
 
