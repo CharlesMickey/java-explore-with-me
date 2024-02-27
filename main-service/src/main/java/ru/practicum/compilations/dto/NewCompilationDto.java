@@ -1,18 +1,18 @@
 package ru.practicum.compilations.dto;
 
+import java.util.List;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Builder;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
-import java.util.List;
-
 @Data
 @Builder
 public class NewCompilationDto {
+
     @NotBlank(message = "Title не может быть пустым")
-    @Size(min = 1, max = 100,message = "Длина title ль 1 до 100 символов")
+    @Size(min = 1, max = 100, message = "Длина title ль 1 до 100 символов")
     private String title;
 
     private boolean pinned = false;
