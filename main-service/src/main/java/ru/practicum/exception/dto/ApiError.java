@@ -1,10 +1,9 @@
 package ru.practicum.exception.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,9 +19,9 @@ public class ApiError {
 
     private final String reason;
 
-   @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private final HttpStatus status;
+    private final String status;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private final LocalDateTime timestamp;
 
 }

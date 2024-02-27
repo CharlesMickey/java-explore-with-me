@@ -6,56 +6,70 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import ru.practicum.exception.dto.ApiError;
+import ru.practicum.utils.Constants;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Slf4j
-@ControllerAdvice
+@RestControllerAdvice
 public class CustomExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Object> handleValidationException(MethodArgumentNotValidException ex) {
-        BindingResult bindingResult = ex.getBindingResult();
-        Map<String, Object> errors = new HashMap<>();
+    public ApiError handleValidationException(MethodArgumentNotValidException ex) {
+        log.info("BAD_REQUEST MethodArgumentNotValidException : {}", ex.getMessage());
 
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            errors.put("timestamp", LocalDateTime.now());
-            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
-        }
+        return ApiError.builder()
+                .message(ex.getMessage())
+                .reason(Constants.INCORRECTLY_MADE_REQUEST)
+                .timestamp(LocalDateTime.now()).status(HttpStatus.BAD_REQUEST.name())
+                .build();
+    }
 
-        errors.forEach((name, message) -> {
-            log.error("Ошибка {}: {}", name, message);
-        });
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ApiError handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        log.info("BAD_REQUEST MethodArgumentTypeMismatchException: {}", ex.getMessage());
 
-        return ResponseEntity.badRequest().body(errors);
+        return ApiError.builder()
+                .message(ex.getMessage())
+                .reason(Constants.INCORRECTLY_MADE_REQUEST)
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.name())
+                .build();
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Object> handleNotFoundException(final NotFoundException e) {
+    public ApiError handleNotFoundException(final NotFoundException e) {
         log.info("NOT_FOUND: {}", e.getMessage());
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("error", "NOT_FOUND");
-        body.put("message", e.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+
+        return ApiError.builder()
+                .message(e.getMessage())
+                .reason(Constants.THE_REQUIRED_OBJECT_WAS_NOT_FOUND)
+                .timestamp(LocalDateTime.now()).status(HttpStatus.NOT_FOUND.name())
+                .build();
     }
+
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Object> handleValidationException(final BadRequestException e) {
+    public ApiError handleValidationException(final BadRequestException e) {
         log.info("BAD_REQUEST: {}", e.getMessage());
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put("timestamp", LocalDateTime.now());
-        body.put("error", "BAD_REQUEST");
-        body.put("message", e.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+
+        return ApiError.builder()
+                .message(e.getMessage())
+                .reason(Constants.INCORRECTLY_MADE_REQUEST)
+                .timestamp(LocalDateTime.now()).status(HttpStatus.BAD_REQUEST.name())
+                .build();
     }
 
     @ExceptionHandler(UnsupportedStatusException.class)
