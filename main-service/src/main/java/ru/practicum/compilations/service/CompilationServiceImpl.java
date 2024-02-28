@@ -1,5 +1,6 @@
 package ru.practicum.compilations.service;
 
+import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -12,8 +13,6 @@ import ru.practicum.exception.NotFoundException;
 import ru.practicum.utils.Constants;
 import ru.practicum.utils.customPageRequest.CustomPageRequest;
 
-import java.util.List;
-
 @Service
 @RequiredArgsConstructor
 public class CompilationServiceImpl implements CompilationService {
@@ -22,22 +21,21 @@ public class CompilationServiceImpl implements CompilationService {
     private final CompilationMapper compilationMapper;
 
     public CompilationDto getCompilationById(Long id) {
-        Compilation compilation = compilationRepo.findById(id)
+        Compilation compilation = compilationRepo
+                .findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Compilation", id)));
 
         return compilationMapper.compilatonsToCompilationsDto(compilation);
     }
 
-
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
         Pageable pageable = CustomPageRequest.customOf(from, size);
 
-        if (pinned == null) return compilationMapper
-                .compilatonsToCompilationsDto(compilationRepo.findAll(pageable).getContent());
+        if (pinned == null)
+            return compilationMapper.compilatonsToCompilationsDto(compilationRepo.findAll(pageable).getContent());
 
         return compilationMapper
                 .compilatonsToCompilationsDto(compilationRepo.findAllByPinned(pinned, pageable).getContent());
     }
-
 }

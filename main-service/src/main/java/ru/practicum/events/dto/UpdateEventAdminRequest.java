@@ -23,11 +23,7 @@ public class UpdateEventAdminRequest {
     private String description;
 
     @NotBlank(message = "Title не может быть пустым")
-    @Size(
-            min = 3,
-            max = 120,
-            message = "Title не менее 3 и не более 120 символов"
-    )
+    @Size(min = 3, max = 120, message = "Title не менее 3 и не более 120 символов")
     private String title;
 
     private Boolean paid;

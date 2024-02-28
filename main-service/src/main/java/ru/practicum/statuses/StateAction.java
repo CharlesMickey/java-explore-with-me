@@ -1,8 +1,7 @@
 package ru.practicum.statuses;
 
 public enum StateAction {
-    PUBLISH_EVENT,
-    REJECT_EVENT;
+    PUBLISH_EVENT, REJECT_EVENT;
 
     public static StateAction fromString(String value) {
         for (StateAction status : values()) {

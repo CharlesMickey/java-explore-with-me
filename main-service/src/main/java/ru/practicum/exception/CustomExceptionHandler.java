@@ -1,10 +1,12 @@
 package ru.practicum.exception;
 
+import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -12,13 +14,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import ru.practicum.exception.dto.ApiError;
 import ru.practicum.utils.Constants;
-
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 @Slf4j
 @RestControllerAdvice
@@ -28,10 +23,12 @@ public class CustomExceptionHandler {
     public ApiError handleValidationException(MethodArgumentNotValidException ex) {
         log.info("BAD_REQUEST MethodArgumentNotValidException : {}", ex.getMessage());
 
-        return ApiError.builder()
+        return ApiError
+                .builder()
                 .message(ex.getMessage())
                 .reason(Constants.INCORRECTLY_MADE_REQUEST)
-                .timestamp(LocalDateTime.now()).status(HttpStatus.BAD_REQUEST.name())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.name())
                 .build();
     }
 
@@ -39,7 +36,8 @@ public class CustomExceptionHandler {
     public ApiError handleTypeMismatchException(MethodArgumentTypeMismatchException ex) {
         log.info("BAD_REQUEST MethodArgumentTypeMismatchException: {}", ex.getMessage());
 
-        return ApiError.builder()
+        return ApiError
+                .builder()
                 .message(ex.getMessage())
                 .reason(Constants.INCORRECTLY_MADE_REQUEST)
                 .timestamp(LocalDateTime.now())
@@ -52,23 +50,26 @@ public class CustomExceptionHandler {
     public ApiError handleNotFoundException(final NotFoundException e) {
         log.info("NOT_FOUND: {}", e.getMessage());
 
-        return ApiError.builder()
+        return ApiError
+                .builder()
                 .message(e.getMessage())
                 .reason(Constants.THE_REQUIRED_OBJECT_WAS_NOT_FOUND)
-                .timestamp(LocalDateTime.now()).status(HttpStatus.NOT_FOUND.name())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.name())
                 .build();
     }
-
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ApiError handleValidationException(final BadRequestException e) {
         log.info("BAD_REQUEST: {}", e.getMessage());
 
-        return ApiError.builder()
+        return ApiError
+                .builder()
                 .message(e.getMessage())
                 .reason(Constants.INCORRECTLY_MADE_REQUEST)
-                .timestamp(LocalDateTime.now()).status(HttpStatus.BAD_REQUEST.name())
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.BAD_REQUEST.name())
                 .build();
     }
 

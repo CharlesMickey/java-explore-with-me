@@ -7,7 +7,7 @@ import org.springframework.data.domain.Sort;
 public class CustomPageRequest extends PageRequest {
 
     public CustomPageRequest(int from, int size) {
-        super(calculatePageNumber(from, size), size,  Sort.unsorted());
+        super(calculatePageNumber(from, size), size, Sort.unsorted());
     }
 
     public CustomPageRequest(int from, int size, Sort sort) {

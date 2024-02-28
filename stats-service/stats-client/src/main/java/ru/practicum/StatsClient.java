@@ -31,7 +31,7 @@ public class StatsClient extends BaseClient {
         return post("/hit",null, endpointHitDto);
     }
 
-    public ResponseEntity<Object> getViewStats(
+    public ResponseEntity<Object> getViewStats (
             LocalDateTime start,
             LocalDateTime end,
             List<String> uris,
