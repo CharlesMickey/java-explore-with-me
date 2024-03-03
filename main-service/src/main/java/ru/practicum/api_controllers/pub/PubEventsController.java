@@ -33,12 +33,12 @@ public class PubEventsController {
             @RequestParam(value = "rangeEnd", required = false)
             @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(value = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
-            @RequestParam(value = "sort", required = false) Sort sort,
+            @RequestParam(value = "sort", required = false) String sort,
             @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") Integer from,
             @Positive @RequestParam(value = "size", defaultValue = "10") Integer size,
             HttpServletRequest request) {
 
-        log.debug("Get request /events"
+        log.info("Get request /events"
                         + " with params: text='{}', categories={}, paid={}, rangeStart={}, rangeEnd={},  sort='{}',"
                         + " onlyAvailable={}, from={}, size={}",
                 text, categories, paid, rangeStart, rangeEnd, sort, onlyAvailable, from, size);

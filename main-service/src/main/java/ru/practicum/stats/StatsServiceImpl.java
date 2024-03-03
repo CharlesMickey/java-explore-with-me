@@ -13,8 +13,13 @@ import ru.practicum.events.model.Event;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import static ru.practicum.utils.Constants.END_TIME;
+import static ru.practicum.utils.Constants.START_TIME;
 
 @Service
 @RequiredArgsConstructor
@@ -48,7 +53,30 @@ public class StatsServiceImpl implements StatsService {
 
     @Override
     public Map<Long, Long> getViews(List<Event> events) {
-        return null;
+
+        Map<Long, Long> views = new HashMap<>();
+
+        if (events.size() == 0) {
+            return views;
+        }
+
+        List<Event> publishedEvents = events.stream()
+                .filter(event -> event.getPublishedOn() != null)
+                .collect(Collectors.toList());
+
+        List<String> uris = publishedEvents.stream()
+                    .map(Event::getId)
+                    .map(eventId -> "/events/" + eventId)
+                    .collect(Collectors.toList());
+
+        List<ViewStatsDto> hits = getViewStats(START_TIME, END_TIME, uris, false);
+
+        for (ViewStatsDto hit : hits) {
+                Long eventId = Long.parseLong(hit.getUri().split("/", 0)[2]);
+                views.put(eventId, Long.valueOf(hit.getHits()));
+            }
+
+        return views;
     }
 
     @Override

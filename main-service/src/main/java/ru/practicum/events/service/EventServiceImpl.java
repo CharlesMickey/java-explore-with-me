@@ -1,6 +1,7 @@
 package ru.practicum.events.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -19,13 +20,15 @@ import ru.practicum.utils.Constants;
 import ru.practicum.utils.customPageRequest.CustomPageRequest;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.bind.ValidationException;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
@@ -39,7 +42,7 @@ public class EventServiceImpl implements EventService {
                                                LocalDateTime rangeStart,
                                                LocalDateTime rangeEnd,
                                                Boolean onlyAvailable,
-                                               Sort sort,
+                                               String sort,
                                                Integer from,
                                                Integer size,
                                                HttpServletRequest request) {
@@ -49,17 +52,32 @@ public class EventServiceImpl implements EventService {
         }
 
         Pageable pageable = sort != null && sort.equals(SortStatus.EVENT_DATE)
-                ? CustomPageRequest.customOf(from, size, sort)
+                ? CustomPageRequest.customOf(from, size, Sort.by("eventDate").descending())
                 : CustomPageRequest.customOf(from, size);
+        List<Event> events = eventRepo
+                .findByParameters(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, pageable).getContent();
+
+        if (events.isEmpty()) return Collections.emptyList();
+        log.info("EVENTS: {}", events);
+
+        Map<Long, Long> views = statsService.getViews(events);
+        List<EventShortDto> shortDtos = eventMapper.eventToEventShortDto(events, views);
 
 
         statsService.createEndpointHit(request);
 
-        return null;
+        if (sort != null && sort.equals(SortStatus.VIEWS)) {
+
+            shortDtos.sort(Comparator.comparing(EventShortDto::getViews).reversed());
+        }
+
+
+        return shortDtos;
     }
 
     @Override
     public EventFullDto getPublicEventById(Long id, HttpServletRequest request) {
+
         Event event = eventRepo.findByIdAndState(id, EventState.PUBLISHED).orElseThrow(() -> new NotFoundException(
                 String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Event", id)));
 

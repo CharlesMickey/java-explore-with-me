@@ -4,8 +4,10 @@ import java.util.List;
 import javax.annotation.processing.Generated;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 import ru.practicum.categories.dto.CategoryDto;
+import ru.practicum.categories.dto.NewCategoryDto;
 import ru.practicum.categories.model.Category;
 
 @Mapper(componentModel = "spring")
@@ -13,7 +15,11 @@ import ru.practicum.categories.model.Category;
 public interface CategoriesMapper {
     CategoriesMapper NSTANCE = Mappers.getMapper(CategoriesMapper.class);
 
+    Category categoriesDtoToCategories(CategoryDto categoryDto);
     CategoryDto categoriesToCategoriesDto(Category category);
 
     List<CategoryDto> categoriesToCategoriesDto(List<Category> categories);
+
+    @Mapping(target = "id", ignore = true)
+    Category categoryNewToCategory(NewCategoryDto newCategoryDto);
 }
