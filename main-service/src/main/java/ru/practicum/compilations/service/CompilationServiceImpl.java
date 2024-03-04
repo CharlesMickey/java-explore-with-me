@@ -1,14 +1,19 @@
 package ru.practicum.compilations.service;
 
+import java.util.Collections;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.compilations.dto.CompilationDto;
+import ru.practicum.compilations.dto.NewCompilationDto;
+import ru.practicum.compilations.dto.UpdateCompilationRequest;
 import ru.practicum.compilations.mapper.CompilationMapper;
 import ru.practicum.compilations.model.Compilation;
 import ru.practicum.compilations.repository.CompilationRepo;
+import ru.practicum.events.model.Event;
+import ru.practicum.events.repository.EventRepo;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.utils.Constants;
 import ru.practicum.utils.customPageRequest.CustomPageRequest;
@@ -19,6 +24,7 @@ public class CompilationServiceImpl implements CompilationService {
 
     private final CompilationRepo compilationRepo;
     private final CompilationMapper compilationMapper;
+    private final EventRepo eventRepo;
 
     public CompilationDto getCompilationById(Long id) {
         Compilation compilation = compilationRepo
@@ -37,5 +43,47 @@ public class CompilationServiceImpl implements CompilationService {
 
         return compilationMapper
                 .compilatonsToCompilationsDto(compilationRepo.findAllByPinned(pinned, pageable).getContent());
+    }
+
+    @Override
+    public CompilationDto createdCompilation(NewCompilationDto newCompilationDto) {
+        List<Event> events =
+                newCompilationDto.getEvents() != null
+                        ? eventRepo.findAllByIdIn(newCompilationDto.getEvents())
+                        : Collections.emptyList();
+
+        Compilation compilation = compilationRepo
+                .save(compilationMapper.compilationToNewCompilationDto(newCompilationDto, events));
+        return compilationMapper.compilatonsToCompilationsDto(compilation);
+    }
+
+    @Override
+    public void deleteCompilation(Long compilationId) {
+        getCompilationById(compilationId);
+
+        compilationRepo.deleteById(compilationId);
+    }
+
+    @Override
+    public CompilationDto updateCompilation(long compilationId, UpdateCompilationRequest updateCompilationRequest) {
+        Compilation compilation = compilationMapper.compilationDtoToCompilation(getCompilationById(compilationId));
+
+        if (updateCompilationRequest.getEvents() != null && !updateCompilationRequest.getEvents().isEmpty()) {
+            final List<Event> events = eventRepo.findAllByIdIn(updateCompilationRequest.getEvents());
+            compilation.setEvents(events);
+        }
+
+        if (updateCompilationRequest.getTitle() != null && !updateCompilationRequest.getTitle().isBlank()) {
+            compilation.setTitle(updateCompilationRequest.getTitle());
+        }
+
+        if (updateCompilationRequest.getPinned() != null) {
+            compilation.setPinned(updateCompilationRequest.getPinned());
+        }
+
+        Compilation updCompilation = compilationRepo.save(compilation);
+
+
+        return compilationMapper.compilatonsToCompilationsDto(updCompilation);
     }
 }

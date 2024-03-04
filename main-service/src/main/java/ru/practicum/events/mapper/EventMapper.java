@@ -26,4 +26,6 @@ public interface EventMapper {
                 .map(event -> eventToEventShortDto(event, views.getOrDefault(event.getId(), 0L)))
                 .collect(Collectors.toList());
     }
+
+    List<EventShortDto> eventToEventShortDto(List<Event> events);
 }

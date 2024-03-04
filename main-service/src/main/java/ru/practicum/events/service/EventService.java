@@ -2,6 +2,7 @@ package ru.practicum.events.service;
 
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
+import ru.practicum.events.dto.NewEventDto;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -15,4 +16,8 @@ public interface EventService {
 
     EventFullDto getPublicEventById(Long id, HttpServletRequest request);
 
-}
+    List<EventShortDto> getUserEvents(Long userId, int from, int size);
+
+    EventFullDto createUserEvent(Long userId, NewEventDto newEventDto);
+
+    }

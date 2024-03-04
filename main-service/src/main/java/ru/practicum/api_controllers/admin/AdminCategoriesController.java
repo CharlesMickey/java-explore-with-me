@@ -29,7 +29,7 @@ public class AdminCategoriesController {
     @DeleteMapping("/{categoryId}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable long categoryId) {
-        log.debug("Delete request /admin/categories, id: {}", categoryId);
+        log.info("Delete request /admin/categories, id: {}", categoryId);
         categoriesService.deleteCategory(categoryId);
     }
 

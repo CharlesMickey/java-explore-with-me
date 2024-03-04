@@ -8,9 +8,9 @@ import lombok.Data;
 
 @Data
 @Builder
-public class UpdateCompilationReques {
+public class UpdateCompilationRequest {
 
-    @Size(min = 1, max = 100, message = "Длина title ль 1 до 100 символов")
+    @Size(min = 1, max = 100, message = "Длина title от 1 до 100 символов")
     private String title;
 
     private Boolean pinned;

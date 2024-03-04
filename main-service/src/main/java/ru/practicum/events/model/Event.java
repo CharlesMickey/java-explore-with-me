@@ -55,7 +55,7 @@ public class Event {
     private User initiator;
 
     @Column(name = "confirmed_requests")
-    private Integer confirmedRequests;
+    private int confirmedRequests;
 
     @Column(name = "request_moderation")
     private Boolean requestModeration;
