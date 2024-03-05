@@ -69,11 +69,13 @@ public class EventServiceImpl implements EventService {
                                                Integer size,
                                                HttpServletRequest request) {
 
+        SortStatus sortStatus = SortStatus.fromString(sort.toUpperCase());
+
         if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
             throw new BadRequestException("Начало события не может быть позже окончания.");
         }
 
-        Pageable pageable = sort != null && sort.equals(SortStatus.EVENT_DATE)
+        Pageable pageable = sort != null && sortStatus.equals(SortStatus.EVENT_DATE)
                 ? CustomPageRequest.customOf(from, size, Sort.by("eventDate").descending())
                 : CustomPageRequest.customOf(from, size);
         List<Event> events = eventRepo
@@ -86,7 +88,7 @@ public class EventServiceImpl implements EventService {
 
         statsService.createEndpointHit(request);
 
-        if (sort != null && sort.equals(SortStatus.VIEWS)) {
+        if (sort != null && sortStatus.equals(SortStatus.VIEWS)) {
 
             shortDtos.sort(Comparator.comparing(EventShortDto::getViews).reversed());
         }
