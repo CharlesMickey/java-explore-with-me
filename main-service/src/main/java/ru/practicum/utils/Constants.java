@@ -19,6 +19,6 @@ public class Constants {
     public static final String INTEGRITY_CONSTRAINT_VIOLATED = "Integrity constraint has been violated.";
     public static final String ERR_CANCELED_EVENTS = "You can only change canceled events or events in the waiting " +
             "state of moderation";
-    public static final LocalDateTime START_TIME = LocalDateTime.parse("2000-01-01T00:00:00");
-    public static final LocalDateTime END_TIME = LocalDateTime.now().plusHours(1);
+    public static final LocalDateTime START_TIME =  LocalDateTime.of(1666, 1, 1, 0, 0, 0);
+    public static final LocalDateTime END_TIME = LocalDateTime.of(2666, 1, 1, 0, 0, 0);
 }

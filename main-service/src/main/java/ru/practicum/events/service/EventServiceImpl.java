@@ -108,7 +108,7 @@ public class EventServiceImpl implements EventService {
                 Collections.singletonList(request.getRequestURI()),
                 true);
 
-        long hits = views.stream().findFirst().map(view -> Long.valueOf(view.getHits())).orElse(0L);
+        long hits = views.stream().findFirst().map(view -> Long.valueOf(view.getHits())).orElse(0L) + 1;
 
         return eventMapper.eventToEventFullDto(event, hits);
     }
@@ -268,15 +268,13 @@ public class EventServiceImpl implements EventService {
         Pageable pageable = CustomPageRequest.customOf(from, size);
 
 
-
-        log.info("Get eventStateList: {} ", states);
-
         List<Event> events = eventRepo
                 .findByAdminParameters(users, states, categories, rangeStart, rangeEnd, pageable).getContent();
 
         if (events.isEmpty()) return Collections.emptyList();
 
         Map<Long, Long> views = statsService.getViews(events);
+
         List<EventFullDto> fullDtos = new ArrayList<>();
         for (Event event : events) {
             fullDtos.add(eventMapper.eventToEventFullDto(event, views.getOrDefault(event.getId(), 0L)));
@@ -292,8 +290,8 @@ public class EventServiceImpl implements EventService {
         checkTime(updateEventAdminRequest.getEventDate(), 1);
         Event event = eventRepo.findById(eventId).orElseThrow(() -> new NotFoundException(
                 String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Event", eventId)));
-
-        if ((event.getState() == EventState.PUBLISHED)  || (event.getState() == EventState.CANCELED) ) {
+        log.info("Get eventeventeventeventevent: {} ", event);
+        if ((event.getState() == EventState.PUBLISHED) || (event.getState() == EventState.REJECTED)) {
             throw new ConflictException(
                     "Нельзя менять опубликованное или отмененное.");
         }
