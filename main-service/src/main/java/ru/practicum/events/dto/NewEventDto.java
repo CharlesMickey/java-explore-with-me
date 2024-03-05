@@ -5,12 +5,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDateTime;
 import javax.validation.constraints.*;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.practicum.locations.dto.LocationDto;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class NewEventDto {
 
     @NotBlank(message = "Annotation не может быть пустым")
@@ -25,8 +29,8 @@ public class NewEventDto {
     @Size(min = 3, max = 120, message = "Title не менее 3 и не более 120 символов")
     private String title;
 
-    @NotNull(message = "Paid не может быть пустым")
-    private Boolean paid;
+
+    private boolean paid = false;
 
     @NotNull(message = "Category не может быть пустым")
     @Positive(message = "CategoryId must be positive")
@@ -35,14 +39,14 @@ public class NewEventDto {
     @NotNull(message = "Location не может быть пустым")
     private LocationDto location;
 
-    @NotNull(message = "Request moderation не может быть пустым")
-    private Boolean requestModeration;
+
+    private boolean requestModeration = true;
 
     @NotNull(message = "EventDate не может быть пустым")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    @NotNull(message = "Participant limit не может быть пустым")
+
     @PositiveOrZero(message = "Participant limit не может быть отрицательным")
-    private Integer participantLimit;
+    private int participantLimit = 0;
 }

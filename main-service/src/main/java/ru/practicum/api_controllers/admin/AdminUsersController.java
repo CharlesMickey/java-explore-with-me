@@ -18,8 +18,8 @@ import java.util.List;
 @RequestMapping(path = "/admin/users")
 @Slf4j
 public class AdminUsersController {
-    private final UserService userService;
 
+    private final UserService userService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()

@@ -15,6 +15,6 @@ import lombok.NoArgsConstructor;
 public class NewCategoryDto {
 
     @NotBlank(message = "Field: name. Error: must not be blank. Value: null")
-    @Size(min = 1, max = 100, message = "размер названия категории от 1 до 100")
+    @Size(min = 1, max = 50, message = "размер названия категории от 1 до 50")
     private String name;
 }

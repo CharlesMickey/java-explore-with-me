@@ -40,6 +40,26 @@ public interface EventRepo extends JpaRepository<Event, Long> {
 
     Page<Event> findAllByInitiatorId(Long initiatorId, Pageable pageable);
 
+    Optional<Event> findByIdAndInitiatorId(Long id, Long userId);
+
+
+    @Query("SELECT e FROM Event e " +
+            "LEFT JOIN e.category c " +
+            "LEFT JOIN e.initiator u " +
+            "WHERE " +
+            "((:users) IS NULL OR u.id IN (:users)) OR " +
+            "((:states) IS NULL OR e.state IN (:states)) OR " +
+            "((:categories) IS NULL OR c.id IN (:categories)) OR " +
+            "(COALESCE(:rangeStart, CURRENT_TIMESTAMP) <= e.eventDate) OR " +
+            "(cast(:rangeEnd as timestamp) IS NULL OR e.eventDate <= :rangeEnd) ")
+    Page<Event> findByAdminParameters(@Param("users") List<Long> users,
+                                      @Param("states") List<EventState> states,
+                                      @Param("categories") List<Long> categories,
+                                      @Param("rangeStart") LocalDateTime rangeStart,
+                                      @Param("rangeEnd") LocalDateTime rangeEnd,
+                                      Pageable pageable);
+
+
 }
 
 

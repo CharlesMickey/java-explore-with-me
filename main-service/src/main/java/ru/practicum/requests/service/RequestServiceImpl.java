@@ -49,11 +49,11 @@ public class RequestServiceImpl implements RequestService {
             throw new ConflictException(Constants.OWN_EVENT_REQUEST);
         }
 
-        if (event.getPublishedOn().equals(EventState.PUBLISHED)) {
+        if (event.getPublishedOn() == null || !event.getState().equals(EventState.PUBLISHED)) {
             throw new ConflictException(Constants.UNPUBLISHED_EVENT_REQUEST);
         }
 
-        if (event.getParticipantLimit() != 0 && event.getParticipantLimit().equals(event.getConfirmedRequests())) {
+        if (event.getParticipantLimit() != 0 && event.getParticipantLimit() == event.getConfirmedRequests()) {
             throw new ConflictException(Constants.LIMIT_EVENT_REQUEST);
         }
 

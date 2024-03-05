@@ -79,10 +79,6 @@ public class StatsServiceImpl implements StatsService {
         return views;
     }
 
-    @Override
-    public Map<Long, Long> getConfirmedRequest(List<Event> events) {
-        return null;
-    }
 
     private List<ViewStatsDto> extractViewStatsFromResponse(ResponseEntity<Object> response) {
         Object responseBody = response.getBody();

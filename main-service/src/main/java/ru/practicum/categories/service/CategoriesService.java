@@ -4,9 +4,12 @@ import java.util.List;
 
 import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.categories.dto.NewCategoryDto;
+import ru.practicum.categories.model.Category;
 
 public interface CategoriesService {
-    CategoryDto getCategoryById(Long id);
+    CategoryDto getCategoryDtoById(Long id);
+
+    Category getCategoryById(Long id);
 
     List<CategoryDto> getCategories(Integer from, Integer size);
 

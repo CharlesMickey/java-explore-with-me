@@ -27,13 +27,19 @@ public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesMapper categoriesMapper;
 
     @Override
-    public CategoryDto getCategoryById(Long id) {
+    public CategoryDto getCategoryDtoById(Long id) {
         Category category = categoriesRepo
                 .findById(id)
                 .orElseThrow(() -> new NotFoundException(
                         String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Category", id)));
 
         return categoriesMapper.categoriesToCategoriesDto(category);
+    }
+
+    @Override
+    public Category getCategoryById(Long id) {
+        return categoriesRepo.findById(id).orElseThrow(() -> new NotFoundException(
+                        String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Category", id)));
     }
 
     @Override
@@ -76,9 +82,9 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDto) {
-        CategoryDto categoryDto = getCategoryById(categoryId);
+        CategoryDto categoryDto = getCategoryDtoById(categoryId);
 
-        if(categoriesRepo.existsByIdNotAndName(categoryId, newCategoryDto.getName())) {
+        if (categoriesRepo.existsByIdNotAndName(categoryId, newCategoryDto.getName())) {
             throw new ConflictException("The category name already exist.");
         }
 

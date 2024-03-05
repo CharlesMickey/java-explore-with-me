@@ -32,6 +32,6 @@ public class PubCategoriesController {
     public CategoryDto getCategoryById(@PathVariable Long id) {
         log.info("Get request /categories/id: {} ", id);
 
-        return categoriesService.getCategoryById(id);
+        return categoriesService.getCategoryDtoById(id);
     }
 }

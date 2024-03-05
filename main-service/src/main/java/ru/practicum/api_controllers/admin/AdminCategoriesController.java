@@ -15,8 +15,8 @@ import javax.validation.Valid;
 @RequestMapping(path = "/admin/categories")
 @Slf4j
 public class AdminCategoriesController {
-    private final CategoriesService categoriesService;
 
+    private final CategoriesService categoriesService;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping()
@@ -35,10 +35,9 @@ public class AdminCategoriesController {
 
     @PatchMapping("/{categoryId}")
     @ResponseStatus(HttpStatus.OK)
-    public CategoryDto updateCategory(@PathVariable long categoryId, @Valid @RequestBody NewCategoryDto newCategoryDto) {
+    public CategoryDto updateCategory(@PathVariable long categoryId,
+                                      @Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.debug("Patch request /admin/categories, id: {}, newCategoryDto: {}",categoryId, newCategoryDto);
         return categoriesService.updateCategory(categoryId, newCategoryDto);
     }
-
-
 }

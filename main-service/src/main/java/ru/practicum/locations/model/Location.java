@@ -23,5 +23,5 @@ public class Location {
     private Float lat;
 
     @Column
-    private Float lot;
+    private Float lon;
 }

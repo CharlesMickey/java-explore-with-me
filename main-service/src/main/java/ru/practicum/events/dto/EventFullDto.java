@@ -37,14 +37,14 @@ public class EventFullDto {
 
     private UserShortDto initiator;
 
-    private Integer confirmedRequests;
+    private int confirmedRequests;
 
     private Boolean requestModeration;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime eventDate;
 
-    private Integer participantLimit;
+    private int participantLimit;
 
     private EventState state;
 

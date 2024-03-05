@@ -1,12 +1,19 @@
 package ru.practicum.events.mapper;
 
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
+import ru.practicum.categories.model.Category;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
+import ru.practicum.events.dto.NewEventDto;
 import ru.practicum.events.model.Event;
+import ru.practicum.locations.model.Location;
+import ru.practicum.statuses.EventState;
+import ru.practicum.users.model.User;
 
 import javax.annotation.processing.Generated;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,4 +35,18 @@ public interface EventMapper {
     }
 
     List<EventShortDto> eventToEventShortDto(List<Event> events);
+
+    @Mapping(target = "id", ignore = true)
+    @Mapping(source = "initiator", target = "initiator")
+    @Mapping(source = "location", target = "location")
+    @Mapping(source = "category", target = "category")
+    @Mapping(source = "createdOn", target = "createdOn")
+    @Mapping(source = "eventState", target = "state")
+    Event newEventDtoToEvent(NewEventDto newEventDto,
+                             User initiator,
+                             Location location,
+                             Category category,
+                             LocalDateTime createdOn,
+                             EventState eventState);
+
 }

@@ -19,5 +19,4 @@ public interface StatsService {
 
     Map<Long, Long> getViews(List<Event> events);
 
-    Map<Long, Long> getConfirmedRequest(List<Event> events);
 }

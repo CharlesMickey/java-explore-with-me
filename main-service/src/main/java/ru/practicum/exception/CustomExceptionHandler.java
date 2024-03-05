@@ -94,13 +94,14 @@ public class CustomExceptionHandler {
         log.info("BAD_REQUEST ConflictException: {}", e.getStackTrace());
 
         String reason = request.getParameter("reason");
+        String statusName = request.getParameter("statusName");
 
         return ApiError
                 .builder()
                 .message(e.getMessage())
                 .reason((reason != null && !reason.isEmpty()) ? reason : Constants.INTEGRITY_CONSTRAINT_VIOLATED)
                 .timestamp(LocalDateTime.now())
-                .status(HttpStatus.CONFLICT.name())
+                .status((statusName != null && !statusName.isEmpty()) ? statusName : HttpStatus.CONFLICT.name())
                 .build();
     }
 

@@ -1,7 +1,7 @@
 package ru.practicum.statuses;
 
 public enum EventState {
-    PENDING, PUBLISHED, CANCELED;
+    PENDING, PUBLISHED, CANCELED, REJECTED;
 
     public static EventState fromString(String value) {
         for (EventState status : values()) {

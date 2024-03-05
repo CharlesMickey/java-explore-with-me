@@ -64,8 +64,9 @@ public class Event {
     private LocalDateTime eventDate;
 
     @Column(name = "participant_limit")
-    private Integer participantLimit;
+    private int participantLimit;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private EventState state;
 }

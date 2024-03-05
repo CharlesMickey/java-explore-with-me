@@ -23,7 +23,6 @@ public class PrivateRequestsController {
         log.info("Get request /users/userId/requests, userId: {} ", userId);
 
         return requestService.getUserRequests(userId);
-
     }
 
     @PostMapping("/requests")
@@ -32,7 +31,6 @@ public class PrivateRequestsController {
         log.info("Post request /users/userId/requests, userId: {}, eventId: {}", userId, eventId);
 
         return requestService.createUserRequest(userId, eventId);
-
     }
 
     @PatchMapping("/requests/{requestId}/cancel")
@@ -41,7 +39,5 @@ public class PrivateRequestsController {
         log.info("Patch request ../cancel, userId: {}, requestId: {}", userId, requestId);
 
         return requestService.cancelUserRequest(userId, requestId);
-
     }
-
 }
