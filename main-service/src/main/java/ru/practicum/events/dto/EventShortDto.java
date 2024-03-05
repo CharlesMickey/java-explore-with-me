@@ -7,7 +7,6 @@ import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Data;
 import ru.practicum.categories.dto.CategoryDto;
-import ru.practicum.statuses.EventState;
 import ru.practicum.users.dto.UserShortDto;
 
 @Data

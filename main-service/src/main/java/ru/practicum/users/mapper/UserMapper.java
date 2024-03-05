@@ -20,6 +20,7 @@ public interface UserMapper {
     User newUserToUser(NewUserRequest newUserRequest);
 
     UserDto userToUserDto(User user);
+
     List<UserDto> userToUserDto(List<User> users);
 }
 

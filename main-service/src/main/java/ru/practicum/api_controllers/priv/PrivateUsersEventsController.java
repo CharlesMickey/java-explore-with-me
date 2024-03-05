@@ -63,8 +63,8 @@ public class PrivateUsersEventsController {
             @PathVariable @Positive Long eventId,
             @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
 
-        log.info("Patch request ../events full data, userId: {}, eventId: {}, updateEventUserRequest: {} "
-                , userId, eventId, updateEventUserRequest);
+        log.info("Patch request ../events full data, userId: {}, eventId: {}, updateEventUserRequest: {} ",
+                userId, eventId, updateEventUserRequest);
 
         return eventService.updateUserEvent(userId, eventId, updateEventUserRequest);
 
