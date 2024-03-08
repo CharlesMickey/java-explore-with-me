@@ -3,6 +3,7 @@ package ru.practicum.users.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.exception.NotFoundException;
 import ru.practicum.users.dto.NewUserRequest;
 import ru.practicum.users.dto.UserDto;
@@ -16,17 +17,20 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepo userRepo;
     private final UserMapper userMapper;
 
     @Override
+    @Transactional
     public UserDto createUser(NewUserRequest newUserRequest) {
         User user = userRepo.save(userMapper.newUserToUser(newUserRequest));
         return userMapper.userToUserDto(user);
     }
 
     @Override
+    @Transactional
     public void deleteUser(long userId) {
         if (!userRepo.existsById(userId)) {
             throw new NotFoundException(

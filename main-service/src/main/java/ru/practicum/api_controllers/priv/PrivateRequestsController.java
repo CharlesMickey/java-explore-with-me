@@ -19,7 +19,7 @@ public class PrivateRequestsController {
 
     @GetMapping("/requests")
     @ResponseStatus(HttpStatus.OK)
-    List<ParticipationRequestDto> getUserRequests(@PathVariable Long userId) {
+    public List<ParticipationRequestDto> getUserRequests(@PathVariable Long userId) {
         log.info("Get request /users/userId/requests, userId: {} ", userId);
 
         return requestService.getUserRequests(userId);
@@ -27,7 +27,7 @@ public class PrivateRequestsController {
 
     @PostMapping("/requests")
     @ResponseStatus(HttpStatus.CREATED)
-    ParticipationRequestDto createUserRequest(@PathVariable Long userId, @RequestParam Long eventId) {
+    public ParticipationRequestDto createUserRequest(@PathVariable Long userId, @RequestParam Long eventId) {
         log.info("Post request /users/userId/requests, userId: {}, eventId: {}", userId, eventId);
 
         return requestService.createUserRequest(userId, eventId);

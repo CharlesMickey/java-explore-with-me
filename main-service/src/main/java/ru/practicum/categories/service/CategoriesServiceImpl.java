@@ -20,6 +20,7 @@ import ru.practicum.utils.customPageRequest.CustomPageRequest;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CategoriesServiceImpl implements CategoriesService {
 
     private final CategoriesRepo categoriesRepo;
@@ -51,7 +52,7 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     @Transactional
-    public CategoryDto createdCategory(NewCategoryDto newCategoryDto) {
+    public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
         try {
             final Category category = categoriesRepo.save(categoriesMapper
                     .categoryNewToCategory(newCategoryDto));
@@ -66,6 +67,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
+    @Transactional
     public void deleteCategory(Long id) {
         if (!categoriesRepo.existsById(id)) {
             throw new NotFoundException(
@@ -81,6 +83,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
+    @Transactional
     public CategoryDto updateCategory(Long categoryId, NewCategoryDto newCategoryDto) {
         CategoryDto categoryDto = getCategoryDtoById(categoryId);
 
@@ -89,7 +92,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         }
 
         categoryDto.setName(newCategoryDto.getName());
-        Category updCategory = categoriesRepo.save(categoriesMapper.categoriesDtoToCategories(categoryDto));
+        Category updCategory = categoriesMapper.categoriesDtoToCategories(categoryDto);
 
         return categoriesMapper.categoriesToCategoriesDto(updCategory);
     }

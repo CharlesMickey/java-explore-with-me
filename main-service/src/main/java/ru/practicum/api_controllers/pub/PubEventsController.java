@@ -3,10 +3,12 @@ package ru.practicum.api_controllers.pub;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.EventShortDto;
 import ru.practicum.events.service.EventService;
+import ru.practicum.utils.Constants;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.Positive;
@@ -23,14 +25,15 @@ public class PubEventsController {
     private final EventService eventService;
 
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> getPublicEvents(
             @RequestParam(value = "text", required = false) String text,
             @RequestParam(value = "categories", required = false) List<Long> categories,
             @RequestParam(value = "paid", required = false) Boolean paid,
             @RequestParam(value = "rangeStart", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
+            @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime rangeStart,
             @RequestParam(value = "rangeEnd", required = false)
-            @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
+            @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime rangeEnd,
             @RequestParam(value = "onlyAvailable", defaultValue = "false") Boolean onlyAvailable,
             @RequestParam(value = "sort", required = false) String sort,
             @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") Integer from,
@@ -47,6 +50,7 @@ public class PubEventsController {
     }
 
     @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
     public EventFullDto getPublicEventById(@PathVariable long id, HttpServletRequest request) {
         log.info("Get request /events/id: {}, request: {} ", id, request.getRequestURI());
         return eventService.getPublicEventById(id, request);

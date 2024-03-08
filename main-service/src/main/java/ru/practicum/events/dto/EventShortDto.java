@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.users.dto.UserShortDto;
+import ru.practicum.utils.Constants;
 
 @Data
 @Builder
@@ -27,7 +28,7 @@ public class EventShortDto {
 
     private int confirmedRequests;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime eventDate;
 
     private int views;

@@ -10,6 +10,7 @@ import ru.practicum.categories.dto.CategoryDto;
 import ru.practicum.locations.dto.LocationDto;
 import ru.practicum.statuses.EventState;
 import ru.practicum.users.dto.UserShortDto;
+import ru.practicum.utils.Constants;
 
 @Data
 @Builder
@@ -25,10 +26,10 @@ public class EventFullDto {
 
     private Boolean paid;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime createdOn;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime publishedOn;
 
     private CategoryDto category;
@@ -41,7 +42,7 @@ public class EventFullDto {
 
     private Boolean requestModeration;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime eventDate;
 
     private int participantLimit;

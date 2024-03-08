@@ -1,7 +1,6 @@
 package ru.practicum.events.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -45,7 +44,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
+@Transactional(readOnly = true)
 public class EventServiceImpl implements EventService {
 
     private final EventRepo eventRepo;
@@ -177,11 +176,9 @@ public class EventServiceImpl implements EventService {
                 ueur.getEventDate(),
                 ueur.getStateAction(), false);
 
-        Event updatedEvent = eventRepo.save(event);
-
         long hits = getHits(eventId);
 
-        return eventMapper.eventToEventFullDto(updatedEvent, hits);
+        return eventMapper.eventToEventFullDto(event, hits);
     }
 
     @Override
@@ -251,7 +248,6 @@ public class EventServiceImpl implements EventService {
         }
 
         event.setConfirmedRequests(confirmed.size());
-        eventRepo.save(event);
         requestRepo.saveAll(requests);
 
         return new EventRequestStatusUpdateResult(
@@ -285,19 +281,18 @@ public class EventServiceImpl implements EventService {
         List<EventFullDto> fullDtos = new ArrayList<>();
         for (Event event : events) {
             fullDtos.add(eventMapper.eventToEventFullDto(event, views.getOrDefault(event.getId(), 0L)));
-
         }
-
 
         return fullDtos;
     }
 
     @Override
+    @Transactional
     public EventFullDto updateEventsAdmin(Long eventId, UpdateEventAdminRequest updateEventAdminRequest) {
         checkTime(updateEventAdminRequest.getEventDate(), 1);
         Event event = eventRepo.findById(eventId).orElseThrow(() -> new NotFoundException(
                 String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Event", eventId)));
-        log.info("Get eventeventeventeventevent: {} ", event);
+
         if ((event.getState() == EventState.PUBLISHED) || (event.getState() == EventState.REJECTED)) {
             throw new ConflictException(
                     "Нельзя менять опубликованное или отмененное.");
@@ -316,11 +311,9 @@ public class EventServiceImpl implements EventService {
                 updateEventAdminRequest.getEventDate(),
                 updateEventAdminRequest.getStateAction(), true);
 
-        Event updatedEvent = eventRepo.save(event);
-
         long hits = getHits(eventId);
 
-        return eventMapper.eventToEventFullDto(updatedEvent, hits);
+        return eventMapper.eventToEventFullDto(event, hits);
 
     }
 
@@ -367,16 +360,16 @@ public class EventServiceImpl implements EventService {
                                  LocalDateTime eventDate,
                                  StateAction stateAction, boolean admin) {
 
-        if (annotation != null) {
+        if (annotation != null && !annotation.isBlank()) {
             event.setAnnotation(annotation);
         }
-        if (description != null) {
+        if (description != null && !description.isBlank()) {
             event.setDescription(description);
         }
         if (paid != null) {
             event.setPaid(paid);
         }
-        if (title != null) {
+        if (title != null && !title.isBlank()) {
             event.setTitle(title);
         }
         if (requestModeration != null) {

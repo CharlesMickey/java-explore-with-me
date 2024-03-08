@@ -13,7 +13,7 @@ public interface CategoriesService {
 
     List<CategoryDto> getCategories(Integer from, Integer size);
 
-    CategoryDto createdCategory(NewCategoryDto newCategoryDto);
+    CategoryDto createCategory(NewCategoryDto newCategoryDto);
 
     void deleteCategory(Long id);
 

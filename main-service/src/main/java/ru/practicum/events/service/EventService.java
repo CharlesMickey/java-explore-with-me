@@ -26,10 +26,9 @@ public interface EventService {
 
     List<ParticipationRequestDto> getUserEventRequests(Long userId, Long eventId);
 
-    EventRequestStatusUpdateResult updateUserEventRequest(
-            Long userId,
-            Long eventId,
-            EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest);
+    EventRequestStatusUpdateResult updateUserEventRequest(Long userId,
+                                                          Long eventId,
+                                                          EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest);
 
     List<EventFullDto> getEventsAdminFull(List<Long> users, List<EventState> states, List<Long> categories,
                                           LocalDateTime rangeStart, LocalDateTime rangeEnd, Integer from, Integer size);

@@ -22,6 +22,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class RequestServiceImpl implements RequestService {
     private final RequestRepo requestRepo;
     private final RequestMapper requestMapper;
@@ -77,13 +78,14 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
+    @Transactional
     public ParticipationRequestDto cancelUserRequest(Long userId, Long requestId) {
         userService.checkExistUserById(userId);
         Request request = requestRepo.findByIdAndRequesterId(requestId, userId).orElseThrow(() ->
                 new NotFoundException(String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Request", requestId)));
 
         request.setStatus(RequestStatus.CANCELED);
-        return requestMapper.requestToRequestDto(requestRepo.save(request));
+        return requestMapper.requestToRequestDto(request);
     }
 }
 

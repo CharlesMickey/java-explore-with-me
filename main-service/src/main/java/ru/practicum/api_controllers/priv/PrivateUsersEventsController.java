@@ -23,15 +23,12 @@ public class PrivateUsersEventsController {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    List<EventShortDto> getUserEvents(
-            @PathVariable Long userId,
-            @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") int from,
-            @Positive @RequestParam(value = "size", defaultValue = "10") int size) {
+    List<EventShortDto> getUserEvents(@PathVariable Long userId,
+                                      @PositiveOrZero @RequestParam(value = "from", defaultValue = "0") int from,
+                                      @Positive @RequestParam(value = "size", defaultValue = "10") int size) {
 
         log.info("Get request ../events, userId: {} ", userId);
-
         return eventService.getUserEvents(userId, from, size);
-
     }
 
     @PostMapping()
@@ -39,45 +36,34 @@ public class PrivateUsersEventsController {
     EventFullDto createUserEvent(@PathVariable Long userId, @Valid @RequestBody NewEventDto newEventDto) {
 
         log.info("Post request ../events, userId: {}, newEventDto: {} ", userId, newEventDto);
-
         return eventService.createUserEvent(userId, newEventDto);
-
     }
 
     @GetMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    EventFullDto getUserEventFull(
-            @PathVariable @Positive Long userId,
-            @PathVariable @Positive Long eventId) {
+    EventFullDto getUserEventFull(@PathVariable @Positive Long userId, @PathVariable @Positive Long eventId) {
 
         log.info("Get request ../events full data, userId: {}, eventId: {} ", userId, eventId);
-
         return eventService.getUserEventFull(userId, eventId);
-
     }
 
     @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
-    EventFullDto updateUserEvent(
-            @PathVariable @Positive Long userId,
-            @PathVariable @Positive Long eventId,
-            @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
+    EventFullDto updateUserEvent(@PathVariable @Positive Long userId,
+                                 @PathVariable @Positive Long eventId,
+                                 @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
 
         log.info("Patch request ../events full data, userId: {}, eventId: {}, updateEventUserRequest: {} ",
                 userId, eventId, updateEventUserRequest);
-
         return eventService.updateUserEvent(userId, eventId, updateEventUserRequest);
-
     }
 
     @GetMapping("/{eventId}/requests")
     @ResponseStatus(HttpStatus.OK)
-    List<ParticipationRequestDto> getUserEventRequests(
-            @PathVariable @Positive Long userId,
-            @PathVariable @Positive Long eventId) {
+    List<ParticipationRequestDto> getUserEventRequests(@PathVariable @Positive Long userId,
+                                                       @PathVariable @Positive Long eventId) {
 
         log.info("Get request ../events/requests full data, userId: {}, eventId: {} ", userId, eventId);
-
         return eventService.getUserEventRequests(userId, eventId);
     }
 
@@ -89,7 +75,6 @@ public class PrivateUsersEventsController {
             @Valid @RequestBody EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
 
         log.info("Patch request ../events/requests full data, userId: {}, eventId: {} ", userId, eventId);
-
         return eventService.updateUserEventRequest(userId, eventId, eventRequestStatusUpdateRequest);
     }
 }

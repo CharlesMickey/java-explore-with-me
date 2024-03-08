@@ -9,6 +9,7 @@ import ru.practicum.events.dto.EventFullDto;
 import ru.practicum.events.dto.UpdateEventAdminRequest;
 import ru.practicum.events.service.EventService;
 import ru.practicum.statuses.EventState;
+import ru.practicum.utils.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
@@ -30,11 +31,10 @@ public class AdminEventsController {
             @RequestParam(required = false) List<Long> users,
             @RequestParam(required = false) List<EventState> states,
             @RequestParam(required = false) List<Long> categories,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeStart,
-            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
-            @RequestParam(required = false, defaultValue = "0") @PositiveOrZero Integer from,
-            @RequestParam(required = false, defaultValue = "10") @Positive Integer size) {
-
+            @RequestParam(required = false) @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime rangeStart,
+            @RequestParam(required = false) @DateTimeFormat(pattern = Constants.DATE_FORMAT) LocalDateTime rangeEnd,
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive Integer size) {
         log.info("Get request admin/events"
                         + " with params: users='{}', categories={}, states={}, rangeStart={}, rangeEnd={}, "
                         + " onlyAvailable={}, from={}, size={}",
@@ -46,11 +46,7 @@ public class AdminEventsController {
     @PatchMapping("/{eventId}")
     public EventFullDto updateEventsAdmin(@PathVariable Long eventId,
                                           @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-
-        log.info("Patch request admin/events"
-                        + " with params: updateEventAdminRequest={}",
-                updateEventAdminRequest);
-
+        log.info("Patch request admin/events with params: updateEventAdminRequest={}", updateEventAdminRequest);
         return eventService.updateEventsAdmin(eventId, updateEventAdminRequest);
     }
 

@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.locations.dto.LocationDto;
 import ru.practicum.statuses.StateAction;
+import ru.practicum.utils.Constants;
 
 @Data
 @Builder
@@ -36,7 +37,7 @@ public class UpdateEventUserRequest {
 
     private Boolean requestModeration;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime eventDate;
 
     @PositiveOrZero(message = "От 0 и старше")

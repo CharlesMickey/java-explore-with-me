@@ -22,8 +22,7 @@ public class AdminCategoriesController {
     @PostMapping()
     public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("Post request /admin/categories, newCategoryDto: {}", newCategoryDto);
-
-        return categoriesService.createdCategory(newCategoryDto);
+        return categoriesService.createCategory(newCategoryDto);
     }
 
     @DeleteMapping("/{categoryId}")

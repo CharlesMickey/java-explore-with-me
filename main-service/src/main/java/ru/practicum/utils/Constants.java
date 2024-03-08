@@ -21,4 +21,6 @@ public class Constants {
             "state of moderation";
     public static final LocalDateTime START_TIME =  LocalDateTime.of(1666, 1, 1, 0, 0, 0);
     public static final LocalDateTime END_TIME = LocalDateTime.of(2666, 1, 1, 0, 0, 0);
+
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
 }

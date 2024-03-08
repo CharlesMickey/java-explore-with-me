@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.compilations.dto.CompilationDto;
 import ru.practicum.compilations.dto.NewCompilationDto;
 import ru.practicum.compilations.dto.UpdateCompilationRequest;
@@ -20,12 +21,14 @@ import ru.practicum.utils.customPageRequest.CustomPageRequest;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class CompilationServiceImpl implements CompilationService {
 
     private final CompilationRepo compilationRepo;
     private final CompilationMapper compilationMapper;
     private final EventRepo eventRepo;
 
+    @Override
     public CompilationDto getCompilationById(Long id) {
         Compilation compilation = compilationRepo
                 .findById(id)
@@ -35,6 +38,7 @@ public class CompilationServiceImpl implements CompilationService {
         return compilationMapper.compilatonsToCompilationsDto(compilation);
     }
 
+    @Override
     public List<CompilationDto> getCompilations(Boolean pinned, Integer from, Integer size) {
         Pageable pageable = CustomPageRequest.customOf(from, size);
 
@@ -46,6 +50,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public CompilationDto createdCompilation(NewCompilationDto newCompilationDto) {
         List<Event> events =
                 newCompilationDto.getEvents() != null
@@ -58,6 +63,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public void deleteCompilation(Long compilationId) {
         getCompilationById(compilationId);
 
@@ -65,6 +71,7 @@ public class CompilationServiceImpl implements CompilationService {
     }
 
     @Override
+    @Transactional
     public CompilationDto updateCompilation(long compilationId, UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = compilationMapper.compilationDtoToCompilation(getCompilationById(compilationId));
 

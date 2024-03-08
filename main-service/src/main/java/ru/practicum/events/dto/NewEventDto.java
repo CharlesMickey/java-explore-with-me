@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.practicum.locations.dto.LocationDto;
+import ru.practicum.utils.Constants;
 
 @Data
 @Builder
@@ -29,7 +30,6 @@ public class NewEventDto {
     @Size(min = 3, max = 120, message = "Title не менее 3 и не более 120 символов")
     private String title;
 
-
     private boolean paid = false;
 
     @NotNull(message = "Category не может быть пустым")
@@ -39,13 +39,11 @@ public class NewEventDto {
     @NotNull(message = "Location не может быть пустым")
     private LocationDto location;
 
-
     private boolean requestModeration = true;
 
     @NotNull(message = "EventDate не может быть пустым")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = Constants.DATE_FORMAT)
     private LocalDateTime eventDate;
-
 
     @PositiveOrZero(message = "Participant limit не может быть отрицательным")
     private int participantLimit = 0;
