@@ -10,6 +10,7 @@ import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.client.BaseClient;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
 
@@ -37,14 +38,15 @@ public class StatsClient extends BaseClient {
             List<String> uris,
             boolean isUniq
     ) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         Map<String, Object> parameters = Map.of(
-                "start", start,
-                "end", end,
+                "start", start.format(formatter),
+                "end", end.format(formatter),
                 "uris", uris,
                 "isUniq", isUniq);
 
         return get("/stats?start={start}&end={end}&uris={uris}&unique={isUniq}", parameters);
     }
-
 
 }

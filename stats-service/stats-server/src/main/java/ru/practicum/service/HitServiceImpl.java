@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.EndpointHitDto;
 import ru.practicum.ViewStatsDto;
+import ru.practicum.exception.BadRequestException;
 import ru.practicum.mapper.StatsHitMapper;
 import ru.practicum.model.Hit;
 import ru.practicum.model.ViewStats;
@@ -30,6 +31,10 @@ public class HitServiceImpl implements HitService {
 
     public List<ViewStatsDto> getViewStats(LocalDateTime start, LocalDateTime end, List<String> uris, boolean isUniq) {
         List<ViewStats> viewStatsList;
+
+        if (start != null && end != null && start.isAfter(end)) {
+            throw new BadRequestException("Начало события не может быть позже окончания.");
+        }
 
         if (isUniq) {
             viewStatsList = (uris == null || uris.isEmpty())
