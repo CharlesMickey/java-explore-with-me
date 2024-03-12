@@ -2,8 +2,6 @@ package ru.practicum.comments.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import ru.practicum.events.model.Event;
-import ru.practicum.users.model.User;
 
 import java.time.LocalDateTime;
 

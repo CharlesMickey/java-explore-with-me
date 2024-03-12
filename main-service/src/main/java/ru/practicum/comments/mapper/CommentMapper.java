@@ -19,7 +19,7 @@ public interface CommentMapper {
 
     CommentMapper INSTANCE = Mappers.getMapper(CommentMapper.class);
 
-    @Mapping( target = "id", ignore = true)
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "event", target = "event")
     @Mapping(source = "author", target = "author")
     @Mapping(source = "created", target = "created")
@@ -27,7 +27,7 @@ public interface CommentMapper {
 
     @Mapping(target = "eventId", source = "event.id")
     @Mapping(target = "authorId", source = "author.id")
-    CommentDto сommentToCommentDto(Comment comment);
+    CommentDto commentToCommentDto(Comment comment);
 
-    List<CommentDto> сommentToCommentDto(List<Comment> comments);
+    List<CommentDto> commentToCommentDto(List<Comment> comments);
 }

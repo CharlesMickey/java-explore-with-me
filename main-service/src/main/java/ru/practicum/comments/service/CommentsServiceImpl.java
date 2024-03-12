@@ -36,7 +36,7 @@ public class CommentsServiceImpl implements CommentsService {
     public CommentDto getCommentById(Long id) {
         Comment comment = commentsRepo.findById(id).orElseThrow(() -> new NotFoundException(
                 String.format(Constants.WITH_ID_D_WAS_NOT_FOUND, "Comment", id)));
-        return commentMapper.сommentToCommentDto(comment);
+        return commentMapper.commentToCommentDto(comment);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class CommentsServiceImpl implements CommentsService {
 
         Pageable pageable = CustomPageRequest.customOf(from, size);
 
-        return commentMapper.сommentToCommentDto(commentsRepo.findAllByEventId(eventId, pageable).getContent());
+        return commentMapper.commentToCommentDto(commentsRepo.findAllByEventId(eventId, pageable).getContent());
     }
 
     @Override
@@ -59,7 +59,7 @@ public class CommentsServiceImpl implements CommentsService {
         Comment comment = commentsRepo
                 .save(commentMapper.newCommentToComment(newCommentDto, author, event, LocalDateTime.now()));
 
-        return commentMapper.сommentToCommentDto(comment);
+        return commentMapper.commentToCommentDto(comment);
     }
 
     @Override
@@ -89,6 +89,6 @@ public class CommentsServiceImpl implements CommentsService {
             comment.setText(newCommentDto.getText());
         }
 
-        return commentMapper.сommentToCommentDto(comment);
+        return commentMapper.commentToCommentDto(comment);
     }
 }
