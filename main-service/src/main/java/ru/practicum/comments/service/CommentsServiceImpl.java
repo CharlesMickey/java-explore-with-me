@@ -30,8 +30,7 @@ public class CommentsServiceImpl implements CommentsService {
     private final UserService userService;
     private final EventRepo eventRepo;
     private final CommentMapper commentMapper;
-
-
+    
     @Override
     public CommentDto getCommentById(Long id) {
         Comment comment = commentsRepo.findById(id).orElseThrow(() -> new NotFoundException(
