@@ -10,6 +10,7 @@ public class Constants {
             "applications for this event has already been reached";
     public static final String ERR_CHANGE_STATUS = "The status can only be changed for pending applications";
     public static final String INITIATOR_NOT_FOUND = "You are not the initiator of this event";
+    public static final String AUTHOR_NOT_FOUND = "You are not the author of this comment";
     public static final String INCORRECTLY_MADE_REQUEST = "Incorrectly made request.";
     public static final String EXISTS_REQUEST = "Request already exists.";
     public static final String OWN_EVENT_REQUEST = "You are already participating in your event.";
